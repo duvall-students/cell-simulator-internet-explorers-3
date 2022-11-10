@@ -1,6 +1,8 @@
 // Sophie Halish
 //Controller in MVC
 
+import java.awt.*;
+
 /**
  * The size of the grid should be determined through the user interface.
  * The “burn time” of a tree will be 1, but may be changed by the user.
@@ -16,13 +18,23 @@
  *      (with probability = forest density), and empty otherwise.
  *      Then randomly choose “burning trees #” cells and set them to burning status.
  */
-public class Controller {
+public class CellController {
     private int burnTime=1;
     private double spreadProbability=.4;
     private int forestDensity=1;
     private int burningTreesNum=1;
 
-    public Controller(){
+    private CellView viewCell;
+
+    private CellModel modelCell;
+
+    public CellController(){
+
+    }
+
+    public void newForest(){
+        viewCell.createForest();
+        modelCell.redraw();
 
     }
 
@@ -41,4 +53,10 @@ public class Controller {
     public void changeNumberOfBurningTrees(int userInput){
         burningTreesNum=userInput;
     }
+
+    public int getCellState(Point position)
+    {
+        return modelCell.get(position);
+    }
+
 }
