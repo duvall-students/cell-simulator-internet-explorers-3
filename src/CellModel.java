@@ -2,12 +2,12 @@ import java.awt.Point;
 
 public class CellModel {
 	// Possible states of squares that make up a cells
-	public static final int WALL = 0;	
-	public static final int PATH = 1;		// A hall space that is either the current spot being 
-	// explored or a spot that has been determined to be in 
-	// the computed path
-	public static final int EMPTY = 2;		// Basic hall space
-	public static final int VISITED = 3;	// A hall space that was visited and discarded
+	public static final int EDGE = 0;	
+	public static final int EMPTY = 1;	
+	public static final int ALIVE = 2;	
+	public static final int BURNING = 3;
+	public static final int BURNT = 4;
+	
 
 	private int[][] cells;	// The squares making up the cells
 
