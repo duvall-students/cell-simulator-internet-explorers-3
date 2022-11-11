@@ -8,6 +8,7 @@ public class CellModel {
 	public static final int BURNING = 3;
 	public static final int BURNT = 4;
 	
+	
 
 	private int[][] cells;	// The squares making up the cells
 
