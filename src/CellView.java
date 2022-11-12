@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 import application.MazeController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -28,6 +30,11 @@ public class CellView extends Application{
 	private Scene myScene;						// the container for the GUI
 	private boolean paused = false;		
 	private Button pauseButton;
+	
+	private int BURNTIME;
+	private int SPREAD_PROBABILITY;
+	private int FOREST_DENSITY;
+	private int BURNING_TREES;
 
 	private Rectangle[][] mirrorCell;	// the Rectangle objects that will get updated and drawn.  It is 
 	// called "mirror" maze because there is one entry per square in 
@@ -48,7 +55,8 @@ public class CellView extends Application{
 	// Start of JavaFX Application
 		public void start(Stage stage) {
 			// Initializing logic state
-			cellController=new cellController(NUM_ROWS, NUM_COLUMNS, this);
+			//cellController=new CellController(NUM_ROWS, NUM_COLUMNS, this);
+			cellController=new CellController();
 
 			
 			// Initializing the gui
@@ -83,6 +91,149 @@ public class CellView extends Application{
 
 			return scene;
 		}
+		
+		private HBox setupControlButtons(){
+			// Make the controls part
+			HBox controls = new HBox();
+			controls.setAlignment(Pos.BASELINE_CENTER);
+			controls.setSpacing(10);
+
+			Button newMazeButton = new Button("New Forest");
+			newMazeButton.setOnAction(value ->  {
+				cellController.newForest();
+			});
+			controls.getChildren().add(newMazeButton);
+
+			pauseButton = new Button("Pause");
+			pauseButton.setOnAction(value ->  {
+				pressPause();
+			});
+			controls.getChildren().add(pauseButton);
+
+			Button stepButton = new Button("Step");
+			stepButton.setOnAction(value ->  {
+				cellController.doOneStep(MILLISECOND_DELAY);
+			});
+			controls.getChildren().add(stepButton);
+			
+			Button increaseBurnTime= new Button("Increase Burn Time");
+			increaseBurnTime.setOnAction(value -> {
+				cellController.increaseBurnTime();
+			});
+			
+			Button decreaseBurnTime= new Button("Decrease Burn Time");
+			decreaseBurnTime.setOnAction(value -> {
+				cellController.decreaseBurnTime();
+			});
+			
+			Button increaseSpreadProbability= new Button("Increase Spread Probability");
+			increaseSpreadProbability.setOnAction(value -> {
+				cellController.increaseSpreadProbability();
+			});
+			
+			Button decreaseSpreadProbability= new Button("Decrease Spread Probability");
+			decreaseSpreadProbability.setOnAction(value -> {
+				cellController.decreaseSpreadProbability();
+			});
+			
+			Button increaseForestDensity= new Button("Increase Forest Density");
+			increaseForestDensity.setOnAction(value -> {
+				cellController.increaseForestDensity();
+			});
+			
+			Button decreaseForestDensity= new Button("Decrease Forest Density");
+			decreaseForestDensity.setOnAction(value -> {
+				cellController.decreaseForestDensity();
+			});
+			
+			Button increaseNumberOfBurningTrees= new Button("Increase Number of Burning Trees");
+			increaseNumberOfBurningTrees.setOnAction(value -> {
+				cellController.increaseNumberOfBurningTrees();
+			});
+			
+			Button decreaseNumberOfBurningTrees= new Button("Decrease Number of Burning Trees");
+			decreaseNumberOfBurningTrees.setOnAction(value -> {
+				cellController.decreaseNumberOfBurningTrees();
+			});
+			return controls;
+		}
+
+		private HBox setupSearchButtons(){
+	
+		}
+
+		public Point getMazeDimensions() {
+			return new Point(NUM_ROWS, NUM_COLUMNS);
+		}
+
+		/*
+		 * Setup the maze part for drawing. In particular,
+		 * make the mirrorMaze.
+		 */
+		private Group setupMaze(){
+			Group drawing = new Group();
+			mirrorCell = new Rectangle[NUM_ROWS][NUM_COLUMNS];
+			for(int i = 0; i< NUM_ROWS; i++){
+				for(int j =0; j < NUM_COLUMNS; j++){
+					Rectangle rect = new Rectangle(j*BLOCK_SIZE, i*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+					rect.setFill(color[cellController.getCellState(new Point(i,j))]);
+					mirrorCell[i][j] = rect;
+					drawing.getChildren().add(rect);
+				}	
+			}
+			return drawing;
+		}
+		
+
+		/*
+		 * Toggle the pause button
+		 */
+		public void pressPause(){
+			this.paused = !this.paused;
+			if(this.paused){
+				pauseButton.setText("Resume");
+			}
+			else{
+				pauseButton.setText("Pause");
+			}
+		}
+
+		/*
+		 * Pause the animation (regardless of current state of pause button)
+		 */
+		public void pauseIt(){
+			this.paused = true;
+			pauseButton.setText("Resume");
+		}
+
+		/*
+		 * resets all the rectangle colors according to the 
+		 * current state of that rectangle in the maze.  This 
+		 * method assumes the display maze matches the model maze
+		 */
+		public void redraw(){
+			for(int i = 0; i< mirrorCell.length; i++){
+				for(int j =0; j < mirrorCell[i].length; j++){
+					mirrorCell[i][j].setFill(color[cellController.getCellState(new Point(i,j))]);
+				}
+			}
+		}
+
+		/*
+		 * Does a step in the search only if not paused.
+		 */
+		public void step(double elapsedTime){
+			if(!paused) {
+				cellController.doOneStep(elapsedTime);
+			}
+		}
+
+
+
+		public static void main(String[] args) {
+			launch(args);
+		}
+
 
 
 }
