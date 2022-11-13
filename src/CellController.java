@@ -38,22 +38,41 @@ public class CellController {
 
     }
 
-    public void changeBurnTime(int userInput){
-        burnTime=userInput;
+    public int increaseBurnTime(){
+        burnTime++;
+        return burnTime;
+    }
+    public int decreaseBurnTime(){
+        burnTime--;
+        return burnTime;
     }
 
-    public void changeSpreadProbability(int userInput){
-        spreadProbability=userInput;
+    public double increaseSpreadProbability(){
+        spreadProbability+=.1;
+        return spreadProbability;
+    }
+    public double decreaseSpreadProbability(){
+        spreadProbability--;
+        return spreadProbability;
     }
 
-    public void changeForestDensity(int userInput){
-        forestDensity=userInput;
+    public int increaseForestDensity(){
+        forestDensity++;
+        return forestDensity;
+    }
+    public int decreaseForestDensity(){
+        forestDensity--;
+        return forestDensity;
     }
 
-    public void changeNumberOfBurningTrees(int userInput){
-        burningTreesNum=userInput;
+    public int increaseNumberOfBurningTrees(){
+        burningTreesNum++;
+        return burningTreesNum;
     }
-
+    public int decreaseNumberOfBurningTrees(){
+        burningTreesNum--;
+        return burningTreesNum;
+    }
     public int getCellState(Point position)
     {
         return modelCell.get(position);
