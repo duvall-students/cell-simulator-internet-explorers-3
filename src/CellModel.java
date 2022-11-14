@@ -113,21 +113,33 @@ public class CellModel {
 	}
 	
 	
-	public Collection<Point> getNeighbors() {
+	public Collection<Point> getNeighbors(Point c) {
 		List<Point> maybeNeighbors = new ArrayList<>();
-		maybeNeighbors.add(new Point(cell.x-1,cell.y));
-		maybeNeighbors.add(new Point(cell.x+1,cell.y));
-		maybeNeighbors.add(new Point(cell.x,cell.y+1));
-		maybeNeighbors.add(new Point(cell.x,cell.y-1));
+		maybeNeighbors.add(new Point(c.x-1,c.y));
+		maybeNeighbors.add(new Point(c.x+1,c.y));
+		maybeNeighbors.add(new Point(c.x,c.y+1));
+		maybeNeighbors.add(new Point(c.x,c.y-1));
 		List<Point> neighbors = new ArrayList<>();
-		for(Point c: maybeNeighbors){
-			if(cells[c.x][c.y] != EDGE) {
-				neighbors.add(c);
+		for(Point cell: maybeNeighbors){
+			if(cells[cell.x][cell.y] != EDGE) {
+				neighbors.add(cell);
 			}
 		}
 		return neighbors;
 	}
 	
+	public Collection<Point> getBurningCells() {
+		List<Point> burningCells = new ArrayList<>();
+		for(int x = 0; x < cells.length; x++) {
+			for(int y = 0; y < cells.length; y++) {
+				if((cells[x][y] == BURNING)) {
+					burningCells.add(new Point(x,y));
+				}
+			}
+		}
+		return burningCells;
+		
+	}
 	
 	/*
 	 * changeNeighorStatus - checks if tree is alive, starts burning neighbors
