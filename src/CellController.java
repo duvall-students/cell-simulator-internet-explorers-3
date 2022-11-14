@@ -2,6 +2,7 @@
 //Controller in MVC
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -78,7 +79,7 @@ public class CellController {
     }
     public int getCellState(Point position)
     {
-        return modelCell.get(position);
+        return modelCell.getStatus(position);
     }
 
     //true if the tree is alive
@@ -88,14 +89,38 @@ public class CellController {
     }
 
     //true if the tree is now burning
-    public boolean isNowBurning(){
+    public boolean shouldBurn(){
         double burnProbability=die.nextDouble();
         return(burnProbability<=spreadProbability);
     }
 
     public void doOneStep(double elapsedTime){
-
+        if(!modelCell.isForestBurned()){step();}
         viewCell.redraw();
     }
+
+    //updates burning trees, and their neighbors
+    public void step()
+    {
+        Collection<Point> burningCells=modelCell.getBurningCells();
+        for(Point burningCell: burningCells){
+            burnNeighbors(burningCell);
+            modelCell.nowBurnt(burningCell);
+        }
+    }
+
+    public void burnNeighbors(Point tree){
+        Collection<Point> neighbors= modelCell.getNeighbors(tree);
+        for(Point checkThisCell : neighbors){
+            if(modelCell.isAlive(checkThisCell)) //checks if alive
+            {
+                if(shouldBurn()){//if control decides it should burn
+                    modelCell.nowBurning(checkThisCell); //changes to burning
+                }
+            }
+        }
+    }
+
+    // ***how to fix this if the burn time isn't 1
 
 }
