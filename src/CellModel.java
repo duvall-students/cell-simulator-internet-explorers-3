@@ -1,3 +1,26 @@
+// Sibel Tanik
+/*
+ * The size of the grid should be determined through the user interface.
+The “burn time” of a tree will be 1, but may be changed by the user.  
+This refers to how many cycles it takes for a tree to go from “burning” to “burnt-down” status. 
+
+The “spread probability” of the fire will start at .4, but may be changed by the user.  
+This refers to how likely the fire is to spread to a neighbor tree.
+
+The “forest density” will be 1, but may be changed by the user.  
+This refers to the probability that a cell is initialized with a tree.  
+At 1, all cells in the field will be trees except the edges.
+
+The “burning trees #” variable will initially be 1, but may be changed by the user.  
+This refers to the number of cells initialized as a burning tree.
+
+
+Originally, the cells (other than the edges)  
+should randomly have a live tree (with probability = forest density), and empty otherwise.  
+Then randomly choose “burning trees #” cells and set them to burning status. 
+
+ */
+
 import java.awt.Point;
 import java.util.Random;
 
@@ -32,80 +55,78 @@ public class CellModel {
 	
 	
 	/*
-	 * Check to see if the square is inside the outer walls of the cells
+	 * Check to see if the cell is inside the outer walls of the cells
 	 */
-	public boolean inBounds(Point p){
+	public boolean inBounds(Point c){
 		assert(cells!=null);
-		return (p!= null && p.x < cells.length-1 && p.x > 0 && p.y < cells[0].length-1 && p.y >0);
+		return (c!= null && c.x < cells.length-1 && c.x > 0 && c.y < cells[0].length-1 && c.y >0);
 	}
 
 	/*
-	 * Check to see if the point is in bounds (won't cause out-of-bounds or null errors)
+	 * Check to see if the cell is in bounds (won't cause out-of-bounds or null errors)
 	 */
-	public boolean validPoint(Point p){
+	public boolean validCell(Point c){
 		assert(cells!=null);
-		return (p!=null && p.x < cells.length && p.x >= 0 && p.y < cells[0].length && p.y >= 0);
+		return (c!=null && c.x < cells.length && c.x >= 0 && c.y < cells[0].length && c.y >= 0);
 	}
 
 	/*
-	 * get - returns a square state at the given position.
+	 * get - returns a cell state at the given position.
 	 */
-	public int get(Point square){
-		assert(validPoint(square));
-		return cells[square.x][square.y];
+	public int get(Point cell){
+		assert(validCell(cell));
+		return cells[cell.x][cell.y];
+	}
+	
+	
+	/*
+	 * changeNeighorStatus - checks if tree is alive, starts burning neighbors
+	 */
+	public void changeNeighborStatus(Point cell) {
+		assert(validCell(cell));
+		if(cells[cell.x][cell.y] == ALIVE) {
+			cells[cell.x+-1][cell.y] = BURNING;
+			cells[cell.x][cell.y+-1] = BURNING;
+		}
 	}
 	
 	
 	
+	
+	
 	/*
-	 * Create a new random cells of the given dimensions and store the result.
-	 * cells has no cycles.
+	 * isEmpty - turns cell into empty cell (brown)
 	 */
+	
+	public void isEmpty(Point cell) {
+		assert(validCell(cell));
+		cells[cell.x][cell.y] = EMPTY;
+	}
+	
+	/*
+	 * isAlive - turns cell into alive tree (green)
+	 */
+	public void isAlive(Point cell) {
+		assert(validCell(cell));
+		cells[cell.x][cell.y] = ALIVE;
+	}
 
-//	public void createGrid(int rows, int cols) {
-//		assert(rows > 0 && cols > 0);
-//		cells = new int[rows][cols];
-//		// Create a random cells.  The strategy is to start with
-//		// a grid of disconnected "rooms" separated by walls,
-//		// then look at each of the separating walls, in a random
-//		// order.  If tearing down a wall would not create a loop
-//		// in the cells, then tear it down.  Otherwise, leave it in place.
-//		int i,j;
-//		int emptyCt = 0; // number of rooms
-//		int wallCt = 0;  // number of walls
-//		int[] wallrow = new int[(rows*cols)/2];  // position of walls between rooms
-//		int[] wallcol = new int[(rows*cols)/2];
-//		for (i = 0; i<rows; i++)  // start with everything being a wall
-//			for (j = 0; j < cols; j++)
-//				cells[i][j] = WALL;
-//		for (i = 1; i<rows-1; i += 2)  { // make a grid of empty rooms
-//			for (j = 1; j<cols-1; j += 2) {
-//				emptyCt++;
-//				cells[i][j] = -emptyCt;  // each room is represented by a different negative number
-//				if (i < rows-2) {  // record info about wall below this room
-//					wallrow[wallCt] = i+1;
-//					wallcol[wallCt] = j;
-//					wallCt++;
-//				}
-//				if (j < cols-2) {  // record info about wall to right of this room
-//					wallrow[wallCt] = i;
-//					wallcol[wallCt] = j+1;
-//					wallCt++;
-//				}
-//			}
-//		}
-//		int r;
-//		for (i=wallCt-1; i>0; i--) {
-//			r = (int)(Math.random() * i);  // choose a wall randomly and maybe tear it down
-//		//	tearDown(wallrow[r],wallcol[r]);
-//			wallrow[r] = wallrow[i];
-//			wallcol[r] = wallcol[i];
-//		}
-//		for (i=1; i<rows-1; i++)  // replace negative values in cells[][] with emptyCode
-//			for (j=1; j<cols-1; j++)
-//				if (cells[i][j] < 0)
-//					cells[i][j] = EMPTY;
-//	}
+	/*
+	 * isBurning - turns cell into burning tree (red)
+	 */
+	public void isBurning(Point cell) {
+		assert(validCell(cell));
+		cells[cell.x][cell.y] = BURNING;
+	}
+	
+	/*
+	 * isBurnt - turns cell into burnt tree (yellow)
+	 */
+	public void isBurnt(Point cell) {
+		assert(validCell(cell));
+		cells[cell.x][cell.y] = BURNT;
+	}
+	
 	
 	public int[][] createGrid(int[][] area, int size, Random rand) {
 	// create empty grid
