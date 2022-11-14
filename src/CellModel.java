@@ -22,6 +22,9 @@ Then randomly choose “burning trees #” cells and set them to burning status.
  */
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 public class CellModel {
@@ -33,6 +36,8 @@ public class CellModel {
 	private static final int BURNT = 4;
 	private Random random;
 	private int [][] tester = new int[8][3];
+	private Point cell;
+
 	
 	
 
@@ -41,6 +46,25 @@ public class CellModel {
 	public CellModel(int rows, int columns){
 		assert(rows > 0 && columns > 0);
 		createGrid(tester, 8, random);
+	}
+	
+	
+	public int[][] createGrid(int[][] area, int size, Random rand) {
+	// create empty grid
+		for (int i=0; i<size; i++) {
+		      for (int j=0; j<size; j++)
+		        area[i][j] = 0;
+		    }
+	    for (int i=0; i<size; i++) {
+	        for (int j=0; j<size; j++)
+	            if (area[i][j] == EMPTY) {
+	              area[i][j] = ALIVE; 	// tree is now alive if it was empty
+	            }
+	            else if (area[i][j] == BURNING){
+	              area[i][j] = BURNT;  // if tree was burning, it is now burnt
+	          }
+	      }
+	    return area;
 	}
 
 	public int getNumRows(){
@@ -78,6 +102,31 @@ public class CellModel {
 		return cells[cell.x][cell.y];
 	}
 	
+	/*
+	 * isAlive - tells us if a cell is alive or not
+	 */
+	public boolean isAlive(Point cell) {
+		if((cells[cell.x][cell.y]) == ALIVE) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public Collection<Point> getNeighbors() {
+		List<Point> maybeNeighbors = new ArrayList<>();
+		maybeNeighbors.add(new Point(cell.x-1,cell.y));
+		maybeNeighbors.add(new Point(cell.x+1,cell.y));
+		maybeNeighbors.add(new Point(cell.x,cell.y+1));
+		maybeNeighbors.add(new Point(cell.x,cell.y-1));
+		List<Point> neighbors = new ArrayList<>();
+		for(Point c: maybeNeighbors){
+			if(cells[c.x][c.y] != EDGE) {
+				neighbors.add(c);
+			}
+		}
+		return neighbors;
+	}
 	
 	
 	/*
@@ -85,65 +134,47 @@ public class CellModel {
 	 */
 	public void changeNeighborStatus(Point cell) {
 		assert(validCell(cell));
-		if(cells[cell.x][cell.y] == ALIVE) {
-			cells[cell.x+-1][cell.y] = BURNING;
-			cells[cell.x][cell.y+-1] = BURNING;
+		if(cells[cell.x][cell.y] == BURNING) {
+			if((cells[cell.x+-1][cell.y+-1]) == ALIVE);
+				cells[cell.x=-1][cell.y+-1] = BURNING;
 		}
 	}
 	
 	
-	
 	/*
-	 * isEmpty - turns cell into empty cell (brown)
+	 * nowEmpty - turns cell into empty cell (brown)
 	 */
 	
-	public void isEmpty(Point cell) {
+	public void nowEmpty(Point cell) {
 		assert(validCell(cell));
 		cells[cell.x][cell.y] = EMPTY;
 	}
 	
 	/*
-	 * isAlive - turns cell into alive tree (green)
+	 * nowAlive - turns cell into alive tree (green)
 	 */
-	public void isAlive(Point cell) {
+	public void nowAlive(Point cell) {
 		assert(validCell(cell));
 		cells[cell.x][cell.y] = ALIVE;
 	}
 
 	/*
-	 * isBurning - turns cell into burning tree (red)
+	 * nowBurning - turns cell into burning tree (red)
 	 */
-	public void isBurning(Point cell) {
+	public void nowBurning(Point cell) {
 		assert(validCell(cell));
 		cells[cell.x][cell.y] = BURNING;
 	}
 	
 	/*
-	 * isBurnt - turns cell into burnt tree (yellow)
+	 * nowBurnt - turns cell into burnt tree (yellow)
 	 */
-	public void isBurnt(Point cell) {
+	public void nowBurnt(Point cell) {
 		assert(validCell(cell));
 		cells[cell.x][cell.y] = BURNT;
 	}
 	
-	
-	public int[][] createGrid(int[][] area, int size, Random rand) {
-	// create empty grid
-		for (int i=0; i<size; i++) {
-		      for (int j=0; j<size; j++)
-		        area[i][j] = 0;
-		    }
-	    for (int i=0; i<size; i++) {
-	        for (int j=0; j<size; j++)
-	            if (area[i][j] == EMPTY) {
-	              area[i][j] = ALIVE; 	// tree is now alive if it was empty
-	            }
-	            else if (area[i][j] == BURNING){
-	              area[i][j] = BURNT;  // if tree was burning, it is now burnt
-	          }
-	      }
-	    return area;
-	}
+
 	
 	
 	
