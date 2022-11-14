@@ -79,6 +79,7 @@ public class CellModel {
 	}
 	
 	
+	
 	/*
 	 * changeNeighorStatus - checks if tree is alive, starts burning neighbors
 	 */
