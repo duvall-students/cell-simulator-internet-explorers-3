@@ -55,15 +55,15 @@ public class CellModel {
 		      for (int j=0; j<size; j++)
 		        area[i][j] = 0;
 		    }
-	    for (int i=0; i<size; i++) {
-	        for (int j=0; j<size; j++)
-	            if (area[i][j] == EMPTY) {
-	              area[i][j] = ALIVE; 	// tree is now alive if it was empty
-	            }
-	            else if (area[i][j] == BURNING){
-	              area[i][j] = BURNT;  // if tree was burning, it is now burnt
-	          }
-	      }
+//	    for (int i=0; i<size; i++) {
+//	        for (int j=0; j<size; j++)
+//	            if (area[i][j] == EMPTY) {
+//	              area[i][j] = ALIVE; 	// tree is now alive if it was empty
+//	            }
+//	            else if (area[i][j] == BURNING){
+//	              area[i][j] = BURNT;  // if tree was burning, it is now burnt
+//	          }
+//	      }
 	    return area;
 	}
 
