@@ -73,7 +73,7 @@ public class CellModel {
 	/*
 	 * get - returns a cell state at the given position.
 	 */
-	public int get(Point cell){
+	public int getStatus(Point cell){
 		assert(validCell(cell));
 		return cells[cell.x][cell.y];
 	}
@@ -89,8 +89,6 @@ public class CellModel {
 			cells[cell.x][cell.y+-1] = BURNING;
 		}
 	}
-	
-	
 	
 	
 	
