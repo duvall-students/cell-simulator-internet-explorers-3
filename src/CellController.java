@@ -2,6 +2,7 @@
 //Controller in MVC
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * The size of the grid should be determined through the user interface.
@@ -21,10 +22,12 @@ import java.awt.*;
 public class CellController {
     private int burnTime=1;
     private double spreadProbability=.4;
-    private int forestDensity=1;
+    private double forestDensity=1.0;
     private int burningTreesNum=1;
 
     private CellView viewCell;
+
+    private Random die=new Random();
 
     private CellModel modelCell;
 
@@ -52,16 +55,16 @@ public class CellController {
         return spreadProbability;
     }
     public double decreaseSpreadProbability(){
-        spreadProbability--;
+        spreadProbability-=.1;
         return spreadProbability;
     }
 
-    public int increaseForestDensity(){
-        forestDensity++;
+    public double increaseForestDensity(){
+        forestDensity+=.1;
         return forestDensity;
     }
-    public int decreaseForestDensity(){
-        forestDensity--;
+    public double decreaseForestDensity(){
+        forestDensity-=.1;
         return forestDensity;
     }
 
@@ -76,6 +79,23 @@ public class CellController {
     public int getCellState(Point position)
     {
         return modelCell.get(position);
+    }
+
+    //true if the tree is alive
+    public boolean shouldBeLive() {
+        double liveProbability=die.nextDouble();
+        return(forestDensity==1 || liveProbability>=forestDensity);
+    }
+
+    //true if the tree is now burning
+    public boolean isNowBurning(){
+        double burnProbability=die.nextDouble();
+        return(burnProbability<=spreadProbability);
+    }
+
+    public void doOneStep(double elapsedTime){
+
+        viewCell.redraw();
     }
 
 }
