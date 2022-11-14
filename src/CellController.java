@@ -81,11 +81,13 @@ public class CellController {
         return modelCell.get(position);
     }
 
+    //true if the tree is alive
     public boolean shouldBeLive() {
         double liveProbability=die.nextDouble();
         return(forestDensity==1 || liveProbability>=forestDensity);
     }
 
+    //true if the tree is now burning
     public boolean isNowBurning(){
         double burnProbability=die.nextDouble();
         return(burnProbability<=spreadProbability);
