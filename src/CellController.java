@@ -38,7 +38,7 @@ public class CellController {
 
     public void newForest(){
         viewCell.createForest();
-        modelCell.redraw();
+        viewCell.redraw();
 
     }
 
