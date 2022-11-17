@@ -2,6 +2,8 @@
 //Controller in MVC
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.Random;
 
 /**
  * The size of the grid should be determined through the user interface.
@@ -21,10 +23,12 @@ import java.awt.*;
 public class CellController {
     private int burnTime=1;
     private double spreadProbability=.4;
-    private int forestDensity=1;
+    private double forestDensity=1.0;
     private int burningTreesNum=1;
 
     private CellView viewCell;
+
+    private Random die=new Random();
 
     private CellModel modelCell;
 
@@ -34,29 +38,89 @@ public class CellController {
 
     public void newForest(){
         viewCell.createForest();
-        modelCell.redraw();
+        viewCell.redraw();
 
     }
 
-    public void changeBurnTime(int userInput){
-        burnTime=userInput;
+    public int increaseBurnTime(){
+        burnTime++;
+        return burnTime;
+    }
+    public int decreaseBurnTime(){
+        burnTime--;
+        return burnTime;
     }
 
-    public void changeSpreadProbability(int userInput){
-        spreadProbability=userInput;
+    public double increaseSpreadProbability(){
+        spreadProbability+=.1;
+        return spreadProbability;
+    }
+    public double decreaseSpreadProbability(){
+        spreadProbability-=.1;
+        return spreadProbability;
     }
 
-    public void changeForestDensity(int userInput){
-        forestDensity=userInput;
+    public double increaseForestDensity(){
+        forestDensity+=.1;
+        return forestDensity;
+    }
+    public double decreaseForestDensity(){
+        forestDensity-=.1;
+        return forestDensity;
     }
 
-    public void changeNumberOfBurningTrees(int userInput){
-        burningTreesNum=userInput;
+    public int increaseNumberOfBurningTrees(){
+        burningTreesNum++;
+        return burningTreesNum;
     }
-
+    public int decreaseNumberOfBurningTrees(){
+        burningTreesNum--;
+        return burningTreesNum;
+    }
     public int getCellState(Point position)
     {
-        return modelCell.get(position);
+        return modelCell.getStatus(position);
     }
+
+    //true if the tree is alive
+    public boolean shouldBeLive() {
+        double liveProbability=die.nextDouble();
+        return(forestDensity==1 || liveProbability>=forestDensity);
+    }
+
+    //true if the tree is now burning
+    public boolean shouldBurn(){
+        double burnProbability=die.nextDouble();
+        return(burnProbability<=spreadProbability);
+    }
+
+    public void doOneStep(double elapsedTime){
+        if(!modelCell.isForestBurned()){step();}
+        viewCell.redraw();
+    }
+
+    //updates burning trees, and their neighbors
+    public void step()
+    {
+        Collection<Point> burningCells=modelCell.getBurningCells();
+        for(Point burningCell: burningCells){
+            burnNeighbors(burningCell);
+            modelCell.nowBurnt(burningCell);
+        }
+    }
+
+    public void burnNeighbors(Point tree){
+        Collection<Point> neighbors= modelCell.getNeighbors(tree);
+        for(Point checkThisCell : neighbors){
+            if(modelCell.isAlive(checkThisCell)) //checks if alive
+            {
+                if(shouldBurn()){//if control decides it should burn
+                    modelCell.nowBurning(checkThisCell); //changes to burning
+                }
+            }
+        }
+    }
+
+    // ***how to fix this if the burn time isn't 1
 
 }
