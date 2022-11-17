@@ -1,6 +1,8 @@
 // Sophie Halish
 //Controller in MVC
 
+import javafx.scene.control.Cell;
+
 import java.awt.*;
 import java.util.Collection;
 import java.util.Random;
@@ -26,20 +28,19 @@ public class CellController {
     private double forestDensity=1.0;
     private int burningTreesNum=1;
 
-    private CellView viewCell;
+    private CellView viewCell=new CellView();
 
-    private Random die=new Random();
+    private final Random die=new Random();
 
     private CellModel modelCell;
 
     public CellController(){
-
+        //what do I put in here?
     }
 
-    public void newForest(){
-        viewCell.createForest();
+    public void newForest(int row, int col){
         viewCell.redraw();
-
+        modelCell=new CellModel(row,col);
     }
 
     public int increaseBurnTime(){
@@ -120,7 +121,5 @@ public class CellController {
             }
         }
     }
-
     // ***how to fix this if the burn time isn't 1
-
 }
