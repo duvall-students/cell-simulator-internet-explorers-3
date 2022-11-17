@@ -31,10 +31,7 @@ public class CellView extends Application{
 	private boolean paused = false;		
 	private Button pauseButton;
 	
-	private int BURNTIME;
-	private int SPREAD_PROBABILITY;
-	private int FOREST_DENSITY;
-	private int BURNING_TREES;
+
 
 	private Rectangle[][] mirrorCell;	// the Rectangle objects that will get updated and drawn.  It is 
 	// called "mirror" maze because there is one entry per square in 
@@ -168,7 +165,7 @@ public class CellView extends Application{
 		 * Setup the maze part for drawing. In particular,
 		 * make the mirrorMaze.
 		 */
-		private Group createForest(){
+		protected Group createForest(){
 			Group drawing = new Group();
 			mirrorCell = new Rectangle[NUM_ROWS][NUM_COLUMNS];
 			for(int i = 0; i< NUM_ROWS; i++){
