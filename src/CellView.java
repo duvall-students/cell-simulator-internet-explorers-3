@@ -31,10 +31,7 @@ public class CellView extends Application{
 	private boolean paused = false;		
 	private Button pauseButton;
 	
-	private int BURNTIME;
-	private int SPREAD_PROBABILITY;
-	private int FOREST_DENSITY;
-	private int BURNING_TREES;
+
 
 	private Rectangle[][] mirrorCell;	// the Rectangle objects that will get updated and drawn.  It is 
 	// called "mirror" maze because there is one entry per square in 
@@ -76,15 +73,15 @@ public class CellView extends Application{
 		// Create the scene - Controls and Maze areas
 		private Scene setupScene () {
 			// Make three container 
-			Group mazeDrawing = setupMaze();
-			HBox searches = setupSearchButtons();
+			Group mazeDrawing = createForest();
+
 			HBox controls = setupControlButtons();
 
 			VBox root = new VBox();
 			root.setAlignment(Pos.TOP_CENTER);
 			root.setSpacing(10);
 			root.setPadding(new Insets(10, 10, 10, 10));
-			root.getChildren().addAll(searches,mazeDrawing,controls);
+			root.getChildren().addAll(mazeDrawing,controls);
 
 			Scene scene = new Scene(root, NUM_COLUMNS*BLOCK_SIZE+ EXTRA_HORIZONTAL, 
 					NUM_ROWS*BLOCK_SIZE + EXTRA_VERTICAL, Color.ANTIQUEWHITE);
@@ -158,9 +155,7 @@ public class CellView extends Application{
 			return controls;
 		}
 
-		private HBox setupSearchButtons(){
-	
-		}
+
 
 		public Point getMazeDimensions() {
 			return new Point(NUM_ROWS, NUM_COLUMNS);
@@ -170,7 +165,7 @@ public class CellView extends Application{
 		 * Setup the maze part for drawing. In particular,
 		 * make the mirrorMaze.
 		 */
-		private Group setupMaze(){
+		protected Group createForest(){
 			Group drawing = new Group();
 			mirrorCell = new Rectangle[NUM_ROWS][NUM_COLUMNS];
 			for(int i = 0; i< NUM_ROWS; i++){
