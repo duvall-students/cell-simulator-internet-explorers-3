@@ -40,7 +40,6 @@ public class CellController {
     }
 
     public void newForest(int row, int col){
-        modelCell.createGrid();
         viewCell.redraw();
     }
 
