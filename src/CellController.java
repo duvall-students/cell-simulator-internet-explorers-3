@@ -34,13 +34,14 @@ public class CellController {
 
     private CellModel modelCell;
 
-    public CellController(){
-        //what do I put in here?
+    public CellController(int numRows, int numCols, CellView thisDisplay){
+        modelCell=new CellModel(numRows, numCols);
+        viewCell=thisDisplay;
     }
 
     public void newForest(int row, int col){
+        modelCell.createGrid();
         viewCell.redraw();
-        modelCell=new CellModel(row,col);
     }
 
     public int increaseBurnTime(){
