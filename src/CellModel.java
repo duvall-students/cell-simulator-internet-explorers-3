@@ -45,14 +45,14 @@ public class CellModel {
 
 	public CellModel(int rows, int columns){
 		assert(rows > 0 && columns > 0);
-		createGrid(tester, 8, random);
+		createGrid(tester, 8, 3, random);
 	}
 	
 	
-	public int[][] createGrid(int[][] area, int size, Random rand) {
+	public int[][] createGrid(int[][] area, int sizeCOLUMN,int sizeROW, Random rand) {
 	// create empty grid
-		for (int i=0; i<size; i++) {
-		      for (int j=0; j<size; j++)
+		for (int i=0; i<sizeCOLUMN; i++) {
+		      for (int j=0; j<sizeROW; j++)
 		        area[i][j] = 0;
 		    }
 //	    for (int i=0; i<size; i++) {

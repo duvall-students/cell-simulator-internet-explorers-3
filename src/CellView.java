@@ -1,6 +1,6 @@
 import java.awt.Point;
 
-import application.MazeController;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -53,7 +53,7 @@ public class CellView extends Application{
 		public void start(Stage stage) {
 			// Initializing logic state
 			//cellController=new CellController(NUM_ROWS, NUM_COLUMNS, this);
-			cellController=new CellController();
+			cellController=new CellController(NUM_ROWS,NUM_COLUMNS,this);
 
 			
 			// Initializing the gui
@@ -97,7 +97,7 @@ public class CellView extends Application{
 
 			Button newMazeButton = new Button("New Forest");
 			newMazeButton.setOnAction(value ->  {
-				cellController.newForest();
+				cellController.newForest(NUM_ROWS,NUM_COLUMNS);
 			});
 			controls.getChildren().add(newMazeButton);
 
