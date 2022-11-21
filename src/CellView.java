@@ -73,7 +73,7 @@ public class CellView extends Application{
 		// Create the scene - Controls and Maze areas
 		private Scene setupScene () {
 			// Make three container 
-			Group mazeDrawing = createForest();
+			Group mazeDrawing = setupForest();
 
 			HBox controls = setupControlButtons();
 
@@ -165,7 +165,7 @@ public class CellView extends Application{
 		 * Setup the maze part for drawing. In particular,
 		 * make the mirrorMaze.
 		 */
-		protected Group createForest(){
+		private Group setupForest(){
 			Group drawing = new Group();
 			mirrorCell = new Rectangle[NUM_ROWS][NUM_COLUMNS];
 			for(int i = 0; i< NUM_ROWS; i++){

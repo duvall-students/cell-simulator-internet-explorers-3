@@ -96,7 +96,7 @@ public class CellController {
     }
 
     public void doOneStep(double elapsedTime){
-        if(!modelCell.isForestBurned()){step();}
+      //  if(!modelCell.isForestBurned()){step();}
         viewCell.redraw();
     }
 
