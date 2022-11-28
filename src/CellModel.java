@@ -38,20 +38,21 @@ public class CellModel {
 	private static final int BURNING = 3;
 	private static final int BURNT = 4;
 	private Random random;
-	private int [][] tester = new int[8][3];
 	private Point cell;
 
 	private int[][] cells;	// The squares making up the cells
 
 	
 	
-	public CellModel(int rows, int columns, int burningTrees){
+	public CellModel(int rows, int columns, int burningTrees, double forestDensity){
 		assert(rows > 0 && columns > 0);
+		createGrid(rows, columns, burningTrees, forestDensity);
+		
 	}
 	
 
 	
-	public void createGrid(int rows, int cols, int burningTrees) {
+	public void createGrid(int rows, int cols, int burningTrees, double density) {
 		assert(rows > 0 && cols > 0);
 		cells = new int[rows][cols];
 		int i,j;
@@ -60,7 +61,18 @@ public class CellModel {
 				cells[i][j] = EDGE;
 		for (i=1; i<rows-1; i++)  // replace negative values in cells[][] with empty cells
 			for (j=1; j<cols-1; j++)
-				cells[i][j] = EMPTY;
+				if(density == 1) {
+					cells[i][j] = ALIVE;
+				}
+				else {
+					double probability = random.nextDouble();
+					if(probability <= density) {
+						cells[i][j] = ALIVE;
+					}
+					else {
+						cells[i][j] = EMPTY;
+					}
+				}
 	}
 
 	
