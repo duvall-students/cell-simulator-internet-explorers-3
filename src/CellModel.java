@@ -30,17 +30,15 @@ import java.util.Scanner;
 
 public class CellModel {
 	// Possible states of squares that make up a cells
-	private int row;
-	private int column;
 	private static final int EDGE = 0;	
 	private static final int EMPTY = 1;	
 	private static final int ALIVE = 2;	
 	private static final int BURNING = 3;
 	private static final int BURNT = 4;
 	private Random random;
-	private Point cell;
 
-	private int[][] cells;	// The squares making up the cells
+
+	private Cell[][] cells;	// The squares making up the cells
 
 	
 	
@@ -54,23 +52,23 @@ public class CellModel {
 	
 	public void createGrid(int rows, int cols, int burningTrees, double density) {
 		assert(rows > 0 && cols > 0);
-		cells = new int[rows][cols];
+		cells = new Cell[rows][cols];
 		int i,j;
 		for (i = 0; i<rows; i++)  // start with everything being an edge
 			for (j = 0; j < cols; j++)
-				cells[i][j] = EDGE;
+				cells[i][j].changeStatus(EDGE);
 		for (i=1; i<rows-1; i++)  // replace negative values in cells[][] with empty cells
 			for (j=1; j<cols-1; j++)
 				if(density == 1) {
-					cells[i][j] = ALIVE;
+					cells[i][j].changeStatus(ALIVE);
 				}
 				else {
 					double probability = random.nextDouble();
 					if(probability <= density) {
-						cells[i][j] = ALIVE;
+						cells[i][j].changeStatus(ALIVE);
 					}
 					else {
-						cells[i][j] = EMPTY;
+						cells[i][j].changeStatus(EMPTY);
 					}
 				}
 	}
@@ -99,39 +97,39 @@ public class CellModel {
 	/*
 	 * Check to see if the cell is in bounds (won't cause out-of-bounds or null errors)
 	 */
-	public boolean validCell(Point c){
+	public boolean validCell(Cell c){
 		assert(cells!=null);
-		return (c!=null && c.x < cells.length && c.x >= 0 && c.y < cells[0].length && c.y >= 0);
+		return (c!=null && c.getX() < cells.length && c.getX() >= 0 && c.getY() < cells[0].length && c.getY() >= 0);
 	}
 
 	/*
 	 * get - returns a cell state at the given position.
 	 */
-	public int getStatus(Point cell){
+	public int getStatus(Cell cell){
 		assert(validCell(cell));
-		return cells[cell.x][cell.y];
+		return cells[cell.getX()][cell.getY()].getCellStatus();
 	}
 	
 	/*
 	 * isAlive - tells us if a cell is alive or not
 	 */
-	public boolean isAlive(Point cell) {
-		if((cells[cell.x][cell.y]) == ALIVE) {
+	public boolean isAlive(Cell cell) {
+		if((cells[cell.getX()][cell.getY()]).getCellStatus() == ALIVE) {
 			return true;
 		}
 		return false;
 	}
 	
 	
-	public Collection<Point> getNeighbors(Point c) {
-		List<Point> maybeNeighbors = new ArrayList<>();
-		maybeNeighbors.add(new Point(c.x-1,c.y));
-		maybeNeighbors.add(new Point(c.x+1,c.y));
-		maybeNeighbors.add(new Point(c.x,c.y+1));
-		maybeNeighbors.add(new Point(c.x,c.y-1));
-		List<Point> neighbors = new ArrayList<>();
-		for(Point cell: maybeNeighbors){
-			if(cells[cell.x][cell.y] != EDGE) {
+	public Collection<Cell> getNeighbors(Cell c) {
+		List<Cell> maybeNeighbors = new ArrayList<>();
+		maybeNeighbors.add(cells[c.getX()-1][c.getY()]);
+		maybeNeighbors.add(cells[c.getX()+1][c.getY()]);
+		maybeNeighbors.add(cells[c.getX()][c.getY()+1]);
+		maybeNeighbors.add(cells[c.getX()][c.getY()-1]);
+		List<Cell> neighbors = new ArrayList<>();
+		for(Cell cell: maybeNeighbors){
+			if(cells[cell.getX()][cell.getY()].getCellStatus() != EDGE) {
 				neighbors.add(cell);
 			}
 		}
@@ -142,7 +140,7 @@ public class CellModel {
 		List<Point> burningCells = new ArrayList<>();
 		for(int x = 0; x < cells.length; x++) {
 			for(int y = 0; y < cells.length; y++) {
-				if((cells[x][y] == BURNING)) {
+				if((cells[x][y].getCellStatus() == BURNING)) {
 					burningCells.add(new Point(x,y));
 				}
 			}
@@ -154,11 +152,11 @@ public class CellModel {
 	/*
 	 * changeNeighorStatus - checks if tree is alive, starts burning neighbors
 	 */
-	public void changeNeighborStatus(Point cell) {
+	public void changeNeighborStatus(Cell cell) {
 		assert(validCell(cell));
-		if(cells[cell.x][cell.y] == BURNING) {
-			if((cells[cell.x+-1][cell.y+-1]) == ALIVE);
-				cells[cell.x=-1][cell.y+-1] = BURNING;
+		if(cells[cell.getX()][cell.getY()].getCellStatus() == BURNING) {
+			if((cells[cell.getX()+-1][cell.getY()+-1]).getCellStatus() == ALIVE);
+				cells[cell.getX()+-1][cell.getY()+-1].changeStatus(BURNING);
 		}
 	}
 	
@@ -167,33 +165,33 @@ public class CellModel {
 	 * nowEmpty - turns cell into empty cell (brown)
 	 */
 	
-	public void nowEmpty(Point cell) {
+	public void nowEmpty(Cell cell) {
 		assert(validCell(cell));
-		cells[cell.x][cell.y] = EMPTY;
+		cells[cell.getX()][cell.getY()].changeStatus(EMPTY);
 	}
 	
 	/*
 	 * nowAlive - turns cell into alive tree (green)
 	 */
-	public void nowAlive(Point cell) {
+	public void nowAlive(Cell cell) {
 		assert(validCell(cell));
-		cells[cell.x][cell.y] = ALIVE;
+		cells[cell.getX()][cell.getY()].changeStatus(ALIVE);
 	}
 
 	/*
 	 * nowBurning - turns cell into burning tree (red)
 	 */
-	public void nowBurning(Point cell) {
+	public void nowBurning(Cell cell) {
 		assert(validCell(cell));
-		cells[cell.x][cell.y] = BURNING;
+		cells[cell.getX()][cell.getY()].changeStatus(BURNING);
 	}
 	
 	/*
 	 * nowBurnt - turns cell into burnt tree (yellow)
 	 */
-	public void nowBurnt(Point cell) {
+	public void nowBurnt(Cell cell) {
 		assert(validCell(cell));
-		cells[cell.x][cell.y] = BURNT;
+		cells[cell.getX()][cell.getY()].changeStatus(BURNT);
 	}
 	
 
