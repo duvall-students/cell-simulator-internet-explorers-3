@@ -35,7 +35,7 @@ public class CellController {
     private CellModel modelCell;
 
     public CellController(int numRows, int numCols, CellView thisDisplay){
-        modelCell=new CellModel(numRows, numCols);
+        modelCell=new CellModel(numRows, numCols, burningTreesNum);
         viewCell=thisDisplay;
     }
 
