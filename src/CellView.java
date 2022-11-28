@@ -24,8 +24,8 @@ public class CellView extends Application{
 	private final int EXTRA_VERTICAL = 100; 	// GUI area allowance when making the scene width
 	private final int EXTRA_HORIZONTAL = 150; 	// GUI area allowance when making the scene width
 	private final int BLOCK_SIZE = 12;     		// size of each cell in pixels
-	private final int NUM_ROWS = 31; 
-	private final int NUM_COLUMNS = 41;
+	private final int NUM_ROWS = 5; 
+	private final int NUM_COLUMNS = 10;
 
 	private Scene myScene;						// the container for the GUI
 	private boolean paused = false;		
@@ -59,7 +59,7 @@ public class CellView extends Application{
 			// Initializing the gui
 			myScene = setupScene();
 			stage.setScene(myScene);
-			stage.setTitle("aMAZEing");
+			stage.setTitle("Wild Fire");
 			stage.show();
 
 			// Makes the animation happen.  Will call "step" method repeatedly.

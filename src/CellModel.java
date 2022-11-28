@@ -45,34 +45,60 @@ public class CellModel {
 
 	
 	
-	
 	public CellModel(int rows, int columns){
 		assert(rows > 0 && columns > 0);
-		createGrid(tester, 8, random);
+		createGrid(5, 10);
 	}
 	
 
+	
+	public void createGrid(int rows, int cols) {
+		assert(rows > 0 && cols > 0);
+		cells = new int[rows][cols];
+		// Create a random maze.  The strategy is to start with
+		// a grid of disconnected "rooms" separated by walls,
+		// then look at each of the separating walls, in a random
+		// order.  If tearing down a wall would not create a loop
+		// in the maze, then tear it down.  Otherwise, leave it in place.
+		int i,j;
+		int emptyCt = 0; // number of rooms
+		int wallCt = 0;  // number of walls
+		int[] wallrow = new int[(rows*cols)/2];  // position of walls between rooms
+		int[] wallcol = new int[(rows*cols)/2];
+		for (i = 0; i<rows; i++)  // start with everything being a wall
+			for (j = 0; j < cols; j++)
+				cells[i][j] = EDGE;
+		for (i = 1; i<rows-1; i += 2)  { // make a grid of empty rooms
+			for (j = 1; j<cols-1; j += 2) {
+				emptyCt++;
+				cells[i][j] = -emptyCt;  // each room is represented by a different negative number
+				if (i < rows-2) {  // record info about wall below this room
+					wallrow[wallCt] = i+1;
+					wallcol[wallCt] = j;
+					wallCt++;
+				}
+				if (j < cols-2) {  // record info about wall to right of this room
+					wallrow[wallCt] = i;
+					wallcol[wallCt] = j+1;
+					wallCt++;
+				}
+			}
+		}
+		int r;
+		for (i=wallCt-1; i>0; i--) {
+			r = (int)(Math.random() * i);  // choose a wall randomly and maybe tear it down
 
-	
-	
-	public int[][] createGrid(int[][] area, int size, Random rand) {
-	// create empty grid
-		for (int i=0; i<size; i++) {
-		      for (int j=0; j<size; j++)
-		        area[i][j] = 0;
-		    }
-//	    for (int i=0; i<size; i++) {
-//	        for (int j=0; j<size; j++)
-//	            if (area[i][j] == EMPTY) {
-//	              area[i][j] = ALIVE; 	// tree is now alive if it was empty
-//	            }
-//	            else if (area[i][j] == BURNING){
-//	              area[i][j] = BURNT;  // if tree was burning, it is now burnt
-//	          }
-//	      }
-	    return area;
+			wallrow[r] = wallrow[i];
+			wallcol[r] = wallcol[i];
+		}
+		for (i=1; i<rows-1; i++)  // replace negative values in maze[][] with emptyCode
+			for (j=1; j<cols-1; j++)
+				if (cells[i][j] < 0)
+					cells[i][j] = EMPTY;
 	}
 
+	
+	
 	public int getNumRows(){
 		assert(cells!=null);
 		return cells.length;
