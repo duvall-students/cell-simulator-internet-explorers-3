@@ -98,11 +98,7 @@ public class CellView extends Application{
 			controls.setAlignment(Pos.BASELINE_CENTER);
 			controls.setSpacing(10);
 
-			Button newMazeButton = new Button("New Forest");
-			newMazeButton.setOnAction(value ->  {
-				cellController.newForest(NUM_ROWS,NUM_COLUMNS);
-			});
-			controls.getChildren().add(newMazeButton);
+			
 
 			pauseButton = new Button("Pause");
 			pauseButton.setOnAction(value ->  {
@@ -124,10 +120,16 @@ public class CellView extends Application{
 			HBox changes = new HBox();
 			changes.setAlignment(Pos.BASELINE_CENTER);
 			changes.setSpacing(5);
+			
+			Button newMazeButton = new Button("New Forest");
+			newMazeButton.setOnAction(value ->  {
+				cellController.newForest(NUM_ROWS,NUM_COLUMNS);
+			});
+			changes.getChildren().add(newMazeButton);
 
 			Label burnTime= new Label("Burn Time:");
 			TextField burnAmount= new TextField();
-			burnAmount.setOnAction(value -> {
+			newMazeButton.setOnAction(value -> {
 				String burnAmountString=burnAmount.getText();
 				int burnAmountInt=Integer.parseInt(burnAmountString);
 				cellController.setBurnTime(burnAmountInt);
@@ -136,11 +138,10 @@ public class CellView extends Application{
 			
 			Label gridRows= new Label("Rows:");
 			TextField rowAmount= new TextField();
-			rowAmount.setOnAction(value -> {
+			newMazeButton.setOnAction(value -> {
 				String rowAmountString=rowAmount.getText();
 				int rowAmountInt=Integer.parseInt(rowAmountString);
 				NUM_ROWS=rowAmountInt;
-				cellController.newForest(NUM_ROWS, NUM_COLUMNS);
 			});
 			changes.getChildren().addAll(gridRows,rowAmount);
 			
