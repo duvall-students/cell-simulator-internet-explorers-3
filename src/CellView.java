@@ -237,8 +237,9 @@ public class CellView extends Application{
 		 * method assumes the display maze matches the model maze
 		 */
 		public void redraw(){
-			for(int i = 0; i< mirrorCell.length; i++){
-				for(int j =0; j < mirrorCell[i].length; j++){
+			
+			for(int i = 0; i< NUM_ROWS; i++){
+				for(int j =0; j < NUM_COLUMNS; j++){
 					mirrorCell[i][j].setFill(color[cellController.getCellState(new Point(i,j))]);
 				}
 			}
