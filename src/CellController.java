@@ -40,6 +40,7 @@ public class CellController {
     }
 
     public void newForest(int row, int col){
+    	modelCell=new CellModel(row, col, burningTreesNum, forestDensity);
         viewCell.redraw();
     }
 
