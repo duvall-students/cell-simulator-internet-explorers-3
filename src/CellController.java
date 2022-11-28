@@ -35,7 +35,7 @@ public class CellController {
     private CellModel modelCell;
 
     public CellController(int numRows, int numCols, CellView thisDisplay){
-        modelCell=new CellModel(numRows, numCols);
+        modelCell=new CellModel(numRows, numCols, burningTreesNum, forestDensity);
         viewCell=thisDisplay;
     }
 
@@ -43,41 +43,61 @@ public class CellController {
         viewCell.redraw();
     }
 
-    public int increaseBurnTime(){
-        burnTime++;
-        return burnTime;
-    }
-    public int decreaseBurnTime(){
-        burnTime--;
-        return burnTime;
+    public void setBurnTime(int entry)
+    {
+        burnTime=entry;
     }
 
-    public double increaseSpreadProbability(){
-        spreadProbability+=.1;
-        return spreadProbability;
-    }
-    public double decreaseSpreadProbability(){
-        spreadProbability-=.1;
-        return spreadProbability;
+    public void setSpreadProbability(Double entry)
+    {
+        spreadProbability=entry;
     }
 
-    public double increaseForestDensity(){
-        forestDensity+=.1;
-        return forestDensity;
-    }
-    public double decreaseForestDensity(){
-        forestDensity-=.1;
-        return forestDensity;
+    public void setForestDensity(double entry)
+    {
+        forestDensity=entry;
     }
 
-    public int increaseNumberOfBurningTrees(){
-        burningTreesNum++;
-        return burningTreesNum;
+    public void setBurningTreesNum(int entry)
+    {
+        burningTreesNum=entry;
     }
-    public int decreaseNumberOfBurningTrees(){
-        burningTreesNum--;
-        return burningTreesNum;
-    }
+
+//    public int increaseBurnTime(){
+//        burnTime++;
+//        return burnTime;
+//    }
+//    public int decreaseBurnTime(){
+//        burnTime--;
+//        return burnTime;
+//    }
+//
+//    public double increaseSpreadProbability(){
+//        spreadProbability+=.1;
+//        return spreadProbability;
+//    }
+//    public double decreaseSpreadProbability(){
+//        spreadProbability-=.1;
+//        return spreadProbability;
+//    }
+//
+//    public double increaseForestDensity(){
+//        forestDensity+=.1;
+//        return forestDensity;
+//    }
+//    public double decreaseForestDensity(){
+//        forestDensity-=.1;
+//        return forestDensity;
+//    }
+//
+//    public int increaseNumberOfBurningTrees(){
+//        burningTreesNum++;
+//        return burningTreesNum;
+//    }
+//    public int decreaseNumberOfBurningTrees(){
+//        burningTreesNum--;
+//        return burningTreesNum;
+//    }
     public int getCellState(Point position)
     {
         return modelCell.getStatus(position);
