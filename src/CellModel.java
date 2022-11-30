@@ -105,9 +105,9 @@ public class CellModel {
 	/*
 	 * get - returns a cell state at the given position.
 	 */
-	public int getStatus(Cell cell){
-		assert(validCell(cell));
-		return cells[cell.getX()][cell.getY()].getCellStatus();
+	public int getStatus(int x, int y){
+//		assert(validCell(cell));
+		return cells[x][y].getCellStatus();
 	}
 	
 	/*
@@ -136,12 +136,12 @@ public class CellModel {
 		return neighbors;
 	}
 	
-	public Collection<Point> getBurningCells() {
-		List<Point> burningCells = new ArrayList<>();
+	public Collection<Cell> getBurningCells() {
+		List<Cell> burningCells = new ArrayList<>();
 		for(int x = 0; x < cells.length; x++) {
 			for(int y = 0; y < cells.length; y++) {
 				if((cells[x][y].getCellStatus() == BURNING)) {
-					burningCells.add(new Point(x,y));
+					burningCells.add(cells[x][y]);
 				}
 			}
 		}
@@ -190,12 +190,9 @@ public class CellModel {
 	 * nowBurnt - turns cell into burnt tree (yellow)
 	 */
 	public void nowBurnt(Cell cell) {
-		assert(validCell(cell));
+		assert (validCell(cell));
 		cells[cell.getX()][cell.getY()].changeStatus(BURNT);
 	}
-	
-
-	
 	
 	
 	

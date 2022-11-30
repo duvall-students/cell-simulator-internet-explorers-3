@@ -62,9 +62,9 @@ public class CellController {
         burningTreesNum=entry;
     }
 
-    public int getCellState(Cell position)
+    public int getCellState(int row, int col)
     {
-        return modelCell.getStatus(position);
+        return modelCell.getStatus(row,col);
     }
 
     //true if the tree is alive
