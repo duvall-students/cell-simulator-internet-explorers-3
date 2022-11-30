@@ -1,8 +1,6 @@
 // Sophie Halish
 //Controller in MVC
 
-import javafx.scene.control.Cell;
-
 import java.awt.*;
 import java.util.Collection;
 import java.util.Random;
@@ -64,44 +62,9 @@ public class CellController {
         burningTreesNum=entry;
     }
 
-//    public int increaseBurnTime(){
-//        burnTime++;
-//        return burnTime;
-//    }
-//    public int decreaseBurnTime(){
-//        burnTime--;
-//        return burnTime;
-//    }
-//
-//    public double increaseSpreadProbability(){
-//        spreadProbability+=.1;
-//        return spreadProbability;
-//    }
-//    public double decreaseSpreadProbability(){
-//        spreadProbability-=.1;
-//        return spreadProbability;
-//    }
-//
-//    public double increaseForestDensity(){
-//        forestDensity+=.1;
-//        return forestDensity;
-//    }
-//    public double decreaseForestDensity(){
-//        forestDensity-=.1;
-//        return forestDensity;
-//    }
-//
-//    public int increaseNumberOfBurningTrees(){
-//        burningTreesNum++;
-//        return burningTreesNum;
-//    }
-//    public int decreaseNumberOfBurningTrees(){
-//        burningTreesNum--;
-//        return burningTreesNum;
-//    }
-    public int getCellState(Point position)
+    public int getCellState(int row, int col)
     {
-        return modelCell.getStatus(position);
+        return modelCell.getStatus(row,col);
     }
 
     //true if the tree is alive
@@ -124,16 +87,23 @@ public class CellController {
     //updates burning trees, and their neighbors
     public void step()
     {
-        Collection<Point> burningCells=modelCell.getBurningCells();
-        for(Point burningCell: burningCells){
+        Collection<Cell> burningCells=modelCell.getBurningCells();
+        for(Cell burningCell: burningCells){
             burnNeighbors(burningCell);
             modelCell.nowBurnt(burningCell);
+            if(burningCell.getTimeBurning()>=burnTime)
+            {
+                modelCell.nowBurnt(burningCell);
+            }
+            else{
+                burningCell.increaseTimeBurning();
+            }
         }
     }
 
-    public void burnNeighbors(Point tree){
-        Collection<Point> neighbors= modelCell.getNeighbors(tree);
-        for(Point checkThisCell : neighbors){
+    public void burnNeighbors(Cell tree){
+        Collection<Cell> neighbors= modelCell.getNeighbors(tree);
+        for(Cell checkThisCell : neighbors){
             if(modelCell.isAlive(checkThisCell)) //checks if alive
             {
                 if(shouldBurn()){//if control decides it should burn
@@ -142,5 +112,5 @@ public class CellController {
             }
         }
     }
-    // ***how to fix this if the burn time isn't 1
+
 }
