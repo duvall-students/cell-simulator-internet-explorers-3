@@ -1,3 +1,5 @@
+// Sibel Tanik
+
 import java.awt.Point;
 
 public class Cell {
