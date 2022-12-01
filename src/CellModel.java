@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
+
 
 public class CellModel {
 	// Possible states of squares that make up a cells
@@ -36,7 +36,6 @@ public class CellModel {
 	private static final int BURNING = 3;
 	private static final int BURNT = 4;
 	private Random random;
-
 
 	private Cell[][] cells;	// The squares making up the cells
 
@@ -48,7 +47,6 @@ public class CellModel {
 		
 	}
 	
-
 	
 	public void createGrid(int rows, int cols, int burningTrees, double density) {
 		assert(rows > 0 && cols > 0);
