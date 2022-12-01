@@ -54,19 +54,19 @@ public class CellModel {
 		int i,j;
 		for (i = 0; i<rows; i++)  // start with everything being an edge
 			for (j = 0; j < cols; j++)
-				cells[i][j].changeStatus(EDGE);
+				cells[i][j] = new Cell(EDGE, new Point(i,j));
 		for (i=1; i<rows-1; i++)  // replace negative values in cells[][] with empty cells
 			for (j=1; j<cols-1; j++)
 				if(density == 1) {
-					cells[i][j].changeStatus(ALIVE);
+					cells[i][j] = new Cell(ALIVE, new Point(i,j));
 				}
 				else {
 					double probability = random.nextDouble();
 					if(probability <= density) {
-						cells[i][j].changeStatus(ALIVE);
+						cells[i][j] = new Cell(ALIVE, new Point(i,j));
 					}
 					else {
-						cells[i][j].changeStatus(EMPTY);
+						cells[i][j] = new Cell(EMPTY, new Point(i,j));
 					}
 				}
 	}
