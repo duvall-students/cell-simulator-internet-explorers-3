@@ -201,7 +201,7 @@ public class CellView extends Application{
 			for(int i = 0; i< NUM_ROWS; i++){
 				for(int j =0; j < NUM_COLUMNS; j++){
 					Rectangle rect = new Rectangle(j*BLOCK_SIZE, i*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-					rect.setFill(color[cellController.getCellState(new Point(i,j))]);
+					rect.setFill(color[cellController.getCellState(i,j)]);
 					mirrorCell[i][j] = rect;
 					drawing.getChildren().add(rect);
 				}	
@@ -240,7 +240,7 @@ public class CellView extends Application{
 			
 			for(int i = 0; i< NUM_ROWS; i++){
 				for(int j =0; j < NUM_COLUMNS; j++){
-					mirrorCell[i][j].setFill(color[cellController.getCellState(new Point(i,j))]);
+					mirrorCell[i][j].setFill(color[cellController.getCellState(i,j)]);
 				}
 			}
 		}
