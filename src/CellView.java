@@ -145,43 +145,24 @@ public class CellView extends Application{
 			});
 			changes.getChildren().addAll(gridRows,rowAmount);
 			
+			Label gridColumns= new Label("Columns:");
+			TextField columnAmount= new TextField();
+			newMazeButton.setOnAction(value -> {
+				String columnAmountString=columnAmount.getText();
+				int columnAmountInt=Integer.parseInt(columnAmountString);
+				NUM_ROWS=columnAmountInt;
+			});
+			changes.getChildren().addAll(gridColumns,columnAmount);
 			
-//		
-//			Button increaseSpreadProbability= new Button("Increase Spread Probability");
-//			increaseSpreadProbability.setOnAction(value -> {
-//				cellController.increaseSpreadProbability();
-//			});
-//			changes.getChildren().add(increaseSpreadProbability);
-//			
-//			Button decreaseSpreadProbability= new Button("Decrease Spread Probability");
-//			decreaseSpreadProbability.setOnAction(value -> {
-//				cellController.decreaseSpreadProbability();
-//			});
-//			changes.getChildren().add(decreaseSpreadProbability);
-//			
-//			Button increaseForestDensity= new Button("Increase Forest Density");
-//			increaseForestDensity.setOnAction(value -> {
-//				cellController.increaseForestDensity();
-//			});
-//			changes.getChildren().add(increaseForestDensity);
-//			
-//			Button decreaseForestDensity= new Button("Decrease Forest Density");
-//			decreaseForestDensity.setOnAction(value -> {
-//				cellController.decreaseForestDensity();
-//			});
-//			changes.getChildren().add(decreaseForestDensity);
-//			
-//			Button increaseNumberOfBurningTrees= new Button("Increase Number of Burning Trees");
-//			increaseNumberOfBurningTrees.setOnAction(value -> {
-//				cellController.increaseNumberOfBurningTrees();
-//			});
-//			changes.getChildren().add(increaseNumberOfBurningTrees);
-//			
-//			Button decreaseNumberOfBurningTrees= new Button("Decrease Number of Burning Trees");
-//			decreaseNumberOfBurningTrees.setOnAction(value -> {
-//				cellController.decreaseNumberOfBurningTrees();
-//			});
-//			changes.getChildren().add(decreaseNumberOfBurningTrees);
+			Label forestDensity= new Label("Forest Density:");
+			TextField forest= new TextField();
+			newMazeButton.setOnAction(value -> {
+				String forestString=forest.getText();
+				int forestStringInt=Integer.parseInt(forestString);
+				cellController.setBurnTime(forestStringInt);
+			});
+			changes.getChildren().addAll(forestDensity, forest);
+			
 			return changes;
 		}
 
