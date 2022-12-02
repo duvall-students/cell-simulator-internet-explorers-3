@@ -43,10 +43,11 @@ public class CellView extends Application{
 	 * Maze color settings
 	 */
 	private Color[] color  = new Color[] {
-			Color.rgb(200,0,0),		// wall color
-			Color.rgb(128,128,255),	// path color
-			Color.WHITE,			// empty cell color
-			Color.rgb(200,200,200)	// visited cell color
+			Color.rgb(0,0,0),		// wall color
+			Color.BROWN,	// path color
+			Color.GREEN,			// empty cell color
+			Color.rgb(200,0,0),// visited cell color
+			Color.YELLOW,
 	};  		// the color of each of the states  
 	
 	private CellController cellController;
