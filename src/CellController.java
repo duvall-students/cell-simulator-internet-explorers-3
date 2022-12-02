@@ -38,7 +38,7 @@ public class CellController {
     }
 
     public void newForest(int row, int col){
-    	modelCell=new CellModel(row, col, burningTreesNum, forestDensity);
+    	modelCell.createGrid(row,col,burningTreesNum,forestDensity);
         viewCell.redraw();
     }
 
@@ -81,6 +81,7 @@ public class CellController {
 
     public void doOneStep(double elapsedTime){
       //  if(!modelCell.isForestBurned()){step();}
+        step();
         viewCell.redraw();
     }
 
